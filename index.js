@@ -12,9 +12,11 @@ function doRequest(url, resp1) {
             resp1.end(body);
         } else {
             if (error.code) {
-                resp1.end("["+url+"] Error code: " + error.code);
+                resp1.end("["+url+"] Error code: " + error.code + "\n");
             } else if (error.connect === true) {
-                resp1.end("["+url+"] Error connect timeout");
+                resp1.end("["+url+"] Error connect timeout\n");
+            } else {
+                resp1.end("["+url+"] Error: " + error + "\n");
             }
         }
     });
@@ -24,7 +26,7 @@ function handleRequest(request, response) {
     if (request.url.lastIndexOf("/mj", 0) === 0) {
         doRequest("http://mo.licejus.lt/ip/", response);
     } else if (request.url.lastIndexOf("/local", 0) === 0) {
-        doRequest("localhost:8000", response);
+        doRequest("http://localhost:8000", response);
     } else {
         response.end("hello you too!\n");
     }
