@@ -6,11 +6,14 @@ requests from a node server.
 
 Usage:
 
-    npm install
-    sudo -v
-    ./do_test tc_on | sudo bash -x
-    ./do_test test 10
+    $ docker run --privileged -v `pwd`:/blackhole -ti --rm node:0.10 /bin/bash
+    # cd /blackhole
+    # npm install
+    # ./do_test tc_on | bash -x
+    # ./do_test test 10
 
 Expected results: the requests will become slower, even ones talking to `localhost`.
 
-Actual results: eth0 is not reachable at all.
+Actual results: after the test, any packets going out of eth0 get lost:
+
+    # ping 8.8.8.8
