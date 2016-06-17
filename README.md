@@ -7,6 +7,7 @@ requests from a node server.
 Usage:
 
     $ docker run --privileged -v `pwd`:/blackhole -ti --rm node:0.10 /bin/bash
+    # apt-get update && apt-get install -y dnsutils time vim
     # cd /blackhole
     # npm install
     # ./do_test tc_on | bash -x
