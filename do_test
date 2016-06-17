@@ -27,8 +27,8 @@ start_node() {
 }
 
 timeit() {
-    /usr/bin/time "$@" 2>&1 | \
-        awk 'NR==1 {out=$0} NR==2 {t=$1} END { print t " " out }'
+    /usr/bin/time -p "$@" 2>&1 | \
+        awk 'NR==1 {out=$0} /^real/ {t=$2} END { print t " " out }'
 }
 
 after() {
