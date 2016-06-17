@@ -7,6 +7,7 @@ var PORT = 8080;
 var REQUEST_OPTS = {timeout: 1500}
 
 var rand = 0;
+var pid = process.pid
 
 function doRequest(url, resp1) {
     request(url, REQUEST_OPTS, function(error, resp2, body) {
@@ -27,7 +28,7 @@ function doRequest(url, resp1) {
 function handleRequest(request, response) {
     if (request.url.lastIndexOf("/fail", 0) === 0) {
         rand += 1;
-        doRequest("http://" + rand + "really.bad", response);
+        doRequest("http://" + rand + "." + pid + ".really.bad", response);
     } else if (request.url.lastIndexOf("/local", 0) === 0) {
         doRequest("http://localhost:8000", response);
     } else {
