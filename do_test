@@ -43,9 +43,11 @@ start_webserver
 start_node
 sleep 1
 
-for i in `seq 1 100`; do 
-    after 0.05 timeit curl -s http://localhost:8080/fail || :
-    after 0.05 timeit curl -s http://localhost:8080/local || :
+for i in `seq 1 1000`; do
+    after 0.1 timeit curl -s http://localhost:8080/fail || :
+    if [[ $i =~ .*0$ ]]; then  # every 10th go locally
+        after 0.1 timeit curl -s http://localhost:8080/local || :
+    fi
 done
 
 sleep 1
