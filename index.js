@@ -4,7 +4,7 @@ var request = require('request');
 
 var PORT = 8080;
 
-var REQUEST_OPTS = {timeout: 5000}
+var REQUEST_OPTS = {timeout: 3000}
 
 var rand = 0;
 var pid = process.pid

@@ -55,9 +55,8 @@ do_test() {
             timeit curl -s http://localhost:8080/local &
         fi
     done
-    set -e
     echo Done, sleeping
-    sleep 7
+    sleep 4
     echo Done
 }
 
@@ -83,3 +82,5 @@ main() {
 main "$@"
 
 # new stuff on a docker container: dnsutils time vim
+
+# http://http.us.debian.org/debian/pool/main/t/time/time_1.7-25_amd64.deb
