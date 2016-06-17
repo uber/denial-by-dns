@@ -1,0 +1,53 @@
+#!/bin/bash
+set -euo pipefail
+
+declare PYTHON_PID=0
+declare NODE_PID=0
+
+cleanup() {
+    kill $PYTHON_PID
+    kill $NODE_PID
+}
+
+# Prepare tc rules to throttle dns
+delay_dns() {
+    :
+}
+
+# Start a local webserver on port 8080
+start_webserver() {
+    python -m SimpleHTTPServer 8000 > /dev/null 2>&1 &
+    PYTHON_PID=$!
+    trap cleanup SIGINT SIGTERM
+}
+start_node() {
+    node index.js &
+    NODE_PID=$!
+    trap cleanup SIGINT SIGTERM
+}
+
+timeit() {
+    /usr/bin/time "$@" 2>&1 | \
+        awk 'NR==1 {out=$0} NR==2 {t=$1} END { print t " " out }'
+}
+
+after() {
+    SLEEP=$1
+    shift
+    sleep $SLEEP && "$@" &
+}
+
+
+delay_dns
+start_webserver
+start_node
+sleep 1
+
+for i in `seq 1 100`; do 
+    after 0.05 timeit curl -s http://localhost:8080/fail
+    after 0.05 timeit curl -s http://localhost:8080/local
+done
+
+sleep 1
+
+cleanup
