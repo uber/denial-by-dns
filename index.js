@@ -1,13 +1,13 @@
+'use strict';
 var http = require('http');
 var request = require('request');
 
-var TIMEOUT = 2000;
 var PORT = 8080;
 
-var REQUEST_OPTS = {timeout: TIMEOUT}
+var REQUEST_OPTS = {timeout: 1500}
 
-function doRequest(url, resp) {
-    request(url, function(error, resp2, body) {
+function doRequest(url, resp1) {
+    request(url, REQUEST_OPTS, function(error, resp2, body) {
         if (!error) {
             resp1.end(body);
         } else {
@@ -20,11 +20,11 @@ function doRequest(url, resp) {
     });
 }
 
-function handleRequest(req1, resp1) {
-    if (request.url.startswith("/mj")) {
-        doRequest("http://mo.licejus.lt/ip/");
-    } else if (request.url.startswith("/local")) {
-        doRequest("localhost:8000");
+function handleRequest(request, response) {
+    if (request.url.lastIndexOf("/mj", 0) === 0) {
+        doRequest("http://mo.licejus.lt/ip/", response);
+    } else if (request.url.lastIndexOf("/local", 0) === 0) {
+        doRequest("localhost:8000", response);
     } else {
         response.end("hello you too!\n");
     }

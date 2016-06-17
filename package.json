@@ -3,6 +3,6 @@
     "description": "what happens if your dns queries take a while?",
     "scripts": {"start": "node index.js"},
     "dependencies": {
-        "request": "^2.55.0"
+        "request": "^2.72.0"
     }
 }
