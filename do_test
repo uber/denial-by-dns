@@ -44,8 +44,8 @@ start_node
 sleep 1
 
 for i in `seq 1 100`; do 
-    after 0.05 timeit curl -s http://localhost:8080/fail
-    after 0.05 timeit curl -s http://localhost:8080/local
+    after 0.05 timeit curl -s http://localhost:8080/fail || :
+    after 0.05 timeit curl -s http://localhost:8080/local || :
 done
 
 sleep 1
