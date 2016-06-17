@@ -3,6 +3,7 @@ set -euo pipefail
 
 declare PYTHON_PID=0
 declare NODE_PID=0
+readonly SLEEPTIME=0.1
 
 cleanup() {
     kill $PYTHON_PID
@@ -10,8 +11,18 @@ cleanup() {
 }
 
 # Prepare tc rules to throttle dns
-delay_dns() {
-    :
+tc_on() {
+    echo tc qdisc add dev eth0 root handle 1: htb
+    echo tc class add dev eth0 parent 1: classid 1:1 htb rate 1000Mbps
+    echo tc class add dev eth0 parent 1:1 classid 1:11 htb rate 1000Mbps
+    echo tc qdisc add dev eth0 parent 1:11 handle 10: netem delay 200ms limit 9999999
+    for ns in `awk '/nameserver/ { print $2 }' /etc/resolv.conf`; do
+        echo tc filter add dev eth0 protocol ip prio 1 u32 match ip dst $ns flowid 1:11
+    done
+}
+
+tc_off() {
+    echo tc qdisc del dev eth0 root
 }
 
 # Start a local webserver on port 8080
@@ -31,25 +42,44 @@ timeit() {
         awk 'NR==1 {out=$0} /^real/ {t=$2} END { print t " " out }'
 }
 
-after() {
-    SLEEP=$1
-    shift
-    sleep $SLEEP && "$@" &
+do_test() {
+    start_webserver
+    start_node
+    sleep 2
+
+    set +e
+    for i in `seq 1 $1`; do
+        sleep $SLEEPTIME
+        timeit curl -s http://localhost:8080/fail &
+        if [[ $i =~ .*0$ ]]; then  # every 10th go locally
+            timeit curl -s http://localhost:8080/local &
+        fi
+    done
+    set -e
+    echo Done, sleeping
+    sleep 7
+    echo Done
 }
 
+main() {
+    case ${1:-} in
+        tc_on)
+            tc_on;;
+        tc_off)
+            tc_off;;
+        test)
+            do_test $2
+            cleanup;;
+        *)
+            echo "Usage:"
+            echo "  $0 tc_on | sudo bash -x"
+            echo "  $0 tc_off | sudo bash -x"
+            echo "  $0 test X"
+            echo "      X := number of requests"
+            exit 1;;
+    esac
+}
 
-delay_dns
-start_webserver
-start_node
-sleep 1
+main "$@"
 
-for i in `seq 1 100`; do
-    after 0.1 timeit curl -s http://localhost:8080/fail || :
-    if [[ $i =~ .*0$ ]]; then  # every 10th go locally
-        after 0.2 timeit curl -s http://localhost:8080/local || :
-    fi
-done
-
-sleep 1
-
-cleanup
+# new stuff on a docker container: dnsutils time vim
