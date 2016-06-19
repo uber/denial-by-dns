@@ -97,3 +97,6 @@ With the fix
     1.02 [http://23.38.really.bad] Error code: ENOTFOUND
     1.02 [http://24.38.really.bad] Error code: ENOTFOUND
     Done
+
+Also works by adding `process.env.UV_THREADPOOL_SIZE = 30;` just after the
+shebang line of the entry point.
