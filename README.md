@@ -13,6 +13,9 @@ Usage:
     # ./do_test tc_on | bash -x
     # ./do_test test 31
 
+Default node options
+--------------------
+
 Result:
 
     root@3edf375f898e:/blackhole# ./do_test test 30
@@ -55,3 +58,42 @@ Observe that request durations are increasing, of those going locally too.
 
 We believe this happens because the DNS query phase times out, since the libuv
 thread pool is exhausted, and there are no workers in the pool to use.
+
+With the fix
+------------
+
+    root@2fa65680dd87:/blackhole# export UV_THREADPOOL_SIZE=30
+    root@2fa65680dd87:/blackhole# ./do_test test 30
+    Server listening on: http://localhost:8080
+    0.02 [http://localhost:8000] success: 592
+    0.01 [http://localhost:8000] success: 592
+    1.04 [http://1.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://2.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://3.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://4.38.really.bad] Error code: ENOTFOUND
+    0.01 [http://localhost:8000] success: 592
+    1.02 [http://5.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://6.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://7.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://8.38.really.bad] Error code: ENOTFOUND
+    0.01 [http://localhost:8000] success: 592
+    1.02 [http://9.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://10.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://11.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://12.38.really.bad] Error code: ENOTFOUND
+    0.01 [http://localhost:8000] success: 592
+    1.03 [http://13.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://14.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://15.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://16.38.really.bad] Error code: ENOTFOUND
+    Done, sleeping 4 secs
+    0.01 [http://localhost:8000] success: 592
+    1.03 [http://17.38.really.bad] Error code: ENOTFOUND
+    1.02 [http://18.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://19.38.really.bad] Error code: ENOTFOUND
+    1.03 [http://20.38.really.bad] Error code: ENOTFOUND
+    1.02 [http://21.38.really.bad] Error code: ENOTFOUND
+    1.02 [http://22.38.really.bad] Error code: ENOTFOUND
+    1.02 [http://23.38.really.bad] Error code: ENOTFOUND
+    1.02 [http://24.38.really.bad] Error code: ENOTFOUND
+    Done

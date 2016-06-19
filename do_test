@@ -86,4 +86,5 @@ main "$@"
 
 # new stuff on a docker container: dnsutils time vim
 
-# http://http.us.debian.org/debian/pool/main/t/time/time_1.7-25_amd64.deb
+# wget http://http.us.debian.org/debian/pool/main/t/time/time_1.7-25_amd64.deb
+
