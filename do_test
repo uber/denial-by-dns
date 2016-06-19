@@ -48,15 +48,18 @@ do_test() {
     sleep 2
 
     set +e
+    # alternate every second for local/remote
     for i in `seq 1 $1`; do
         sleep $SLEEPTIME
-        timeit curl -s http://localhost:8080/fail &
-        if [[ $i =~ .*0$ ]]; then  # every 10th go locally
+        if [[ $[ $i % 2 ] == 0 ]]; then
             timeit curl -s http://localhost:8080/local &
+        else
+            timeit curl -s http://localhost:8080/fail &
         fi
     done
-    echo Done, sleeping
-    sleep 4
+    local sleep_here=$[ $1/10 + 1 ]  # 10 (times per second) := 1/$SLEEPTIME
+    echo Done, sleeping $sleep_here secs
+    sleep $sleep_here
     echo Done
 }
 
