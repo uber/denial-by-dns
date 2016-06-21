@@ -59,8 +59,8 @@ Observe that request durations are increasing, of those going locally too.
 We believe this happens because the DNS query phase times out, since the libuv
 thread pool is exhausted, and there are no workers in the pool to use.
 
-With the fix
-------------
+With bigger thread pool
+-----------------------
 
     root@2fa65680dd87:/blackhole# export UV_THREADPOOL_SIZE=30
     root@2fa65680dd87:/blackhole# ./do_test test 30
@@ -100,3 +100,45 @@ With the fix
 
 Also works by adding `process.env.UV_THREADPOOL_SIZE = 30;` just after the
 shebang line of the entry point.
+
+Changing localhost to 127.0.0.1
+-------------------------------
+
+    sed -i 's/localhost/127.0.0.1/' index.js
+    root@2fa65680dd87:/blackhole# ./do_test test 30
+    Server listening on: http://localhost:8080
+    0.02 [http://127.0.0.1:8000] success: 654
+    0.01 [http://127.0.0.1:8000] success: 654
+    0.01 [http://127.0.0.1:8000] success: 654
+    1.46 [http://1.35.really.bad] Error code: ENOTFOUND
+    1.44 [http://2.35.really.bad] Error code: ENOTFOUND
+    1.35 [http://3.35.really.bad] Error code: ENOTFOUND
+    1.42 [http://4.35.really.bad] Error code: ENOTFOUND
+    0.01 [http://127.0.0.1:8000] success: 654
+    0.01 [http://127.0.0.1:8000] success: 654
+    2.37 [http://5.35.really.bad] Error code: ENOTFOUND
+    2.19 [http://7.35.really.bad] Error code: ENOTFOUND
+    2.30 [http://6.35.really.bad] Error code: ENOTFOUND
+    Done, sleeping 4 secs
+    0.01 [http://127.0.0.1:8000] success: 654
+    2.26 [http://8.35.really.bad] Error code: ENOTFOUND
+    3.01 [http://9.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://10.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.02 [http://11.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://12.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://13.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://14.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://15.35.really.bad] Error code: ETIMEDOUT
+    3.01 [http://16.35.really.bad] Error code: ETIMEDOUT
+    3.01 [http://17.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://18.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://19.35.really.bad] Error code: ESOCKETTIMEDOUT
+    3.01 [http://20.35.really.bad] Error code: ETIMEDOUT
+    3.01 [http://21.35.really.bad] Error code: ETIMEDOUT
+    3.01 [http://22.35.really.bad] Error code: ETIMEDOUT
+    3.01 [http://23.35.really.bad] Error code: ETIMEDOUT
+    3.01 [http://24.35.really.bad] Error code: ETIMEDOUT
+    Done
+
+We see that when we use `127.0.0.1` instead of `localhost`, the local queries
+are not affected.
