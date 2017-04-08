@@ -1,0 +1,10 @@
+# Golang 1.8 with net/http from stdlib
+FROM golang:1.8
+
+ADD .gen/httpserver scripts/dnsgames_init /
+ADD golang-http/main.go /
+
+RUN go build /main.go && mv main /
+
+ENTRYPOINT ["/dnsgames_init"]
+CMD ["/main"]

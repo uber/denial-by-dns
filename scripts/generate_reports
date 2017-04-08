@@ -1,0 +1,26 @@
+#!/bin/bash
+set -euo pipefail
+
+declare sed=sed
+if [[ $(uname) == "Darwin" ]]; then
+    sed=gsed
+fi
+
+"$sed" -i -n '0,/^List of tested programming languages:$/p' README.md
+
+{
+    echo
+    echo "| Name | Comment | Safe |"
+    echo "| ---- | ------- | ------ |"
+    for report in "$@"; do
+        name=$(basename $report)
+        comment=$(head -1 "$name/Dockerfile.dnsgames" | cut -c 3-)
+        safe=unknown
+        if [[ $(grep -c success "$report") == 1 ]]; then
+            safe=unsafe
+        elif [[ $(grep -c success "$report") == 2 ]]; then
+            safe=safe
+        fi
+        echo "| $name | $comment | $safe |"
+    done
+} >> README.md

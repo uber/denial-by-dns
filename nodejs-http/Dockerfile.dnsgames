@@ -1,0 +1,8 @@
+# Node 7 with 'http' from stdlib
+FROM node:7
+
+ADD .gen/httpserver scripts/dnsgames_init /
+ADD nodejs-http/index.js /
+
+ENTRYPOINT ["/dnsgames_init"]
+CMD ["node", "/index.js"]

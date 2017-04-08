@@ -1,0 +1,74 @@
+#!/bin/bash
+# Runs container named $1 and produces a report `reports/$1`
+set -euo pipefail
+
+declare container_id
+declare wait_time=10  # how long to wait for a container to stop, in seconds
+declare report=".gen/reports/$1"
+
+# Start container named $1. The container name will be `dnsgames-$1`
+start_container() {
+    local _name=$1
+    echo -n "Starting $_name... "
+    set -x
+    container_id=$(
+        docker run \
+            -d \
+            --hostname "$_name" \
+            -v "${PWD}/.gen/reports:/reports" \
+            "dnsgames-$_name"
+    )
+    set +x
+    echo "id: $container_id"
+}
+
+# Wait for $container_id  to exit for up to $wait_time
+# Return exit code of the container, or 2 if killed.
+wait_or_kill() {
+    # Container has 2 seconds to finish the test, and 3 seconds to quit.
+    local _status=running
+    local _code
+    echo -n "Waiting $wait_time seconds for $container_id to stop"
+    for _ in $(seq "$wait_time"); do
+        sleep 1
+        echo -n .
+        _status=$(docker inspect --format='{{ .State.Status }}' "$container_id")
+        if [[ "exited" == "$_status" ]]; then
+            _code=$(docker inspect --format='{{ .State.ExitCode }}' "$container_id")
+            echo "Container $container_id exited with code $_code"
+            return "$_code"
+        fi
+    done
+    echo
+    echo "Container '$container_id' still $_status, killing"
+    docker kill "$container_id" > /dev/null
+    return 2
+}
+
+# remove a stopped $container_id
+remove_container() {
+    docker rm "$container_id" | grep -v "$container_id"
+    echo "Removed $container_id"
+}
+
+set +e
+
+start_container "$1"
+wait_or_kill
+
+declare one_success=1
+grep -q success "$report" || one_success=0
+if [[ $one_success == 0 ]]; then
+    echo ERROR ERROR ERROR ERROR ERROR ERROR ERROR
+    echo ERROR ERROR ERROR ERROR ERROR ERROR ERROR
+    echo "!!!! Health check in cotainer failed !!!!"
+fi
+
+echo Container logs:
+echo ======================================
+docker logs "$container_id"
+echo ======================================
+echo
+
+echo Removing container...
+remove_container

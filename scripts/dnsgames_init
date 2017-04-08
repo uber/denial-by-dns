@@ -1,0 +1,24 @@
+#!/bin/bash
+set -euo pipefail
+error() {
+    echo "$1"
+    exit 1
+}
+set -x
+NSIP=${NSIP:-172.17.0.255}
+
+# check ping version
+ping --version 2>&1 | grep -q inetutils || error "please install inetutils-ping"
+# verify $NSIP is unpingable
+ping -W1000 -c1 "$NSIP" && error "$NSIP is pingable, please set NSIP=<unpingable ip>"
+
+# start http server and report status to a file
+/httpserver "/reports/$(hostname)" &
+while ! wget -qO- http://localhost:8080/health; do
+    echo "Health check failed, retrying ..."; sleep 0.5;
+done
+
+cp -vn /etc/resolv.conf /etc/resolv.conf.bk
+echo "nameserver $NSIP" > /etc/resolv.conf
+
+exec "$@"
