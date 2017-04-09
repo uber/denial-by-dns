@@ -4,5 +4,5 @@ services:
   - docker
 
 script:
-  - make
-  - git diff --quiet
+  - make  # Generate the report from scratch
+  - git diff --quiet  # README.md is committed

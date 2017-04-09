@@ -1,13 +1,11 @@
 CONTAINERS = $(subst /Dockerfile.dnsgames,,$(wildcard */Dockerfile.dnsgames))
 REPORTS = $(sort $(patsubst %,.gen/reports/%,$(CONTAINERS)))
 
-.PHONY: all README.md
+.PHONY: all
 # Do not remove intermediate files; we have logic to handle it anyway.
 .SECONDARY:
 
-all: README.md
-
-README.md: $(REPORTS) scripts/generate_reports
+all: $(REPORTS) scripts/generate_reports
 	scripts/generate_reports $(REPORTS)
 
 .gen/reports/%: .gen/containers/% scripts/do_test
