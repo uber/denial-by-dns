@@ -1,4 +1,4 @@
-# Golang 1.8 with net/http from stdlib
+# Golang 1.8 with 'net/http' from stdlib
 FROM golang:1.8
 
 ADD .gen/httpserver scripts/dnsgames_init /

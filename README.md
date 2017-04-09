@@ -46,5 +46,5 @@ List of tested programming languages:
 
 | Name | Comment | Safe |
 | ---- | ------- | ------ |
-| golang-http | Golang 1.8 with net/http from stdlib | safe |
+| golang-http | Golang 1.8 with 'net/http' from stdlib | safe |
 | nodejs-http | Node 7 with 'http' from stdlib | unsafe |
