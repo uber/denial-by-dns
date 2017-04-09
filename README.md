@@ -25,16 +25,16 @@ For every language/environment, a container is configured with:
 
 An environment test does the following:
 
-* Call `http://localhost:8080/`. This call should always succeed; if it
+* Call `http://localhost:8080`. This call should always succeed; if it
   doesn't, there is an error in the test.
 * Call `http://example.org` `N` times in parallel, do not wait for the result.
   `N` depends on knowledge of the environment, usually a few more than the
   default thread pool size.
 * Wait 1 second to make sure all calls of the above are scheduled.
-* Call `http://localhost:8080/`. This call will succeed iff the application is
+* Call `http://localhost:8080`. This call will succeed iff the application is
   not vulnerable.
 
-Scripts checks the number of times `http://localhost:8080/` is called:
+Scripts checks the number of times `http://localhost:8080` is called:
 * **0**: there is an error with the setup. Script should succeed at least once.
 * **1**: application is vulnerable. First invocation succeeded, second failed.
 * **2**: application is not vulnerable.
@@ -46,5 +46,6 @@ List of tested programming languages:
 
 | Name | Comment | Safe |
 | ---- | ------- | ------ |
+| erlang-httpc | Erlang 19 with inets httpc | unsafe |
 | golang-http | Golang 1.8 with 'net/http' from stdlib | safe |
 | nodejs-http | Node 7 with 'http' from stdlib | unsafe |
