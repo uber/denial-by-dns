@@ -8,10 +8,10 @@ REPORTS = $(sort $(patsubst %,.gen/reports/%,$(CONTAINERS)))
 all: scripts/generate_reports $(REPORTS)
 	$< $(REPORTS)
 
-.gen/reports/%: .gen/containers/% scripts/do_test
+.gen/reports/%: scripts/do_test .gen/containers/%
 	mkdir -p .gen/reports
 	rm -f $@
-	scripts/do_test $*
+	$< $*
 
 .gen/containers/%: %/* %/Dockerfile.dnsgames .gen/httpserver scripts/dnsgames_init
 	mkdir -p .gen/containers
