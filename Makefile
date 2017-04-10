@@ -5,8 +5,8 @@ REPORTS = $(sort $(patsubst %,.gen/reports/%,$(CONTAINERS)))
 # Do not remove intermediate files; we have logic to handle it anyway.
 .SECONDARY:
 
-all: $(REPORTS) scripts/generate_reports
-	scripts/generate_reports $(REPORTS)
+all: scripts/generate_reports $(REPORTS)
+	$< $(REPORTS)
 
 .gen/reports/%: .gen/containers/% scripts/do_test
 	mkdir -p .gen/reports
