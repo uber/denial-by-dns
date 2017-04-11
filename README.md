@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/Motiejus/blackhole.svg?branch=master)](https://travis-ci.org/Motiejus/blackhole)
 
-dnsgames
-========
+Denial of Service establishing connections to `localhost`
+=========================================================
 
-Infrastructure to test `getaddrinfo()` when DNS servers are timing out.
+Infrastructure to test `getaddrinfo()` on different systems when DNS servers are timing out.
 
 Problem statement
 -----------------
