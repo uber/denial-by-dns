@@ -39,6 +39,17 @@ Scripts checks the number of times `http://localhost:8080` is called:
 * **1**: application is vulnerable. First invocation succeeded, second failed.
 * **2**: application is not vulnerable.
 
+Contributing
+------------
+
+If you would like to add a new programming language/environment, check the
+`nodejs-http` example. Pull requests testing new languages and environments are
+very welcome.
+
+Travis-ci is building all examples and verifying whether the report in the pull
+request is accurate. If travis-ci build fails, you probably forgot to commit
+this file. :)
+
 Results
 -------
 
