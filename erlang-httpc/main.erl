@@ -13,6 +13,6 @@ main(_) ->
       lists:seq(1, 25)
      ),
 
-    time:sleep(500),
+    time:sleep(1000),
 
     httpc:request("http://localhost:8080").

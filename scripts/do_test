@@ -61,7 +61,7 @@ grep -q success "$report" || one_success=0
 if [[ $one_success == 0 ]]; then
     echo ERROR ERROR ERROR ERROR ERROR ERROR ERROR
     echo ERROR ERROR ERROR ERROR ERROR ERROR ERROR
-    echo "!!!! Health check in cotainer failed !!!!"
+    echo "!!!! Health check in container failed !!!!"
 fi
 
 echo Container logs:
