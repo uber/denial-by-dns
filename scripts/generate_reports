@@ -11,7 +11,7 @@ fi
 {
     echo
     echo "| Name | Comment | Safe |"
-    echo "| ---- | ------- | ------ |"
+    echo "| ---- | ------- | ---- |"
     for report in "$@"; do
         name=$(basename $report)
         comment=$(head -1 "$name/Dockerfile.dnsgames" | cut -c 3-)
