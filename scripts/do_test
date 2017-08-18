@@ -35,6 +35,7 @@ wait_or_kill() {
         _status=$(docker inspect --format='{{ .State.Status }}' "$container_id")
         if [[ "exited" == "$_status" ]]; then
             _code=$(docker inspect --format='{{ .State.ExitCode }}' "$container_id")
+            echo
             echo "Container $container_id exited with code $_code"
             return "$_code"
         fi
