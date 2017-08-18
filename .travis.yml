@@ -5,4 +5,4 @@ services:
 
 script:
   - make  # Generate the report from scratch
-  - git diff --quiet  # README.md is committed
+  - git diff --exit-code  # README.md is committed
