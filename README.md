@@ -42,11 +42,11 @@ Scripts checks the number of times `http://localhost:8080` is called:
 Contributing
 ------------
 
-If you would like to add a new programming language/environment, check the
-`nodejs-http` example. Pull requests testing new languages and environments are
-very welcome.
+To add a new programming language/environment, check the `nodejs-http` example.
+If you created a test for your (favorite) language/environment, please submit a
+pull request here, so others can benefit from your work too.
 
-Travis-ci is building all examples and verifying whether the report in the pull
+Travis-ci is testing the examples and verifying whether the report in the pull
 request is accurate. If travis-ci build fails, you probably forgot to commit
 this file. :)
 
