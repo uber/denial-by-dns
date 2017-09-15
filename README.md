@@ -60,3 +60,4 @@ List of tested programming languages:
 | erlang-httpc | Erlang 20 with inets httpc | unsafe |
 | golang-http | Golang 1.9 with 'net/http' from stdlib | safe |
 | nodejs-http | Node 8.5 with 'http' from stdlib | unsafe |
+| python3-tornado | Python 3.5.3, Tornado 4.4.3 | unsafe |
