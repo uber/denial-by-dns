@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Motiejus/blackhole.svg?branch=master)](https://travis-ci.org/Motiejus/blackhole)
+[![Build Status](https://travis-ci.org/motiejus/blackhole.svg?branch=master)](https://travis-ci.org/motiejus/blackhole)
 
 Denial of Service establishing connections to `localhost`
 =========================================================
