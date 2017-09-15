@@ -1,5 +1,5 @@
-# Node 7 with 'http' from stdlib
-FROM node:7
+# Node 8.5 with 'http' from stdlib
+FROM node:8.5
 
 ADD .gen/httpserver scripts/dnsgames_init /
 ADD nodejs-http/index.js /

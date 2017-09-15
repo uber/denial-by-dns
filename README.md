@@ -58,5 +58,5 @@ List of tested programming languages:
 | Name | Comment | Safe |
 | ---- | ------- | ---- |
 | erlang-httpc | Erlang 19 with inets httpc | unsafe |
-| golang-http | Golang 1.8 with 'net/http' from stdlib | safe |
-| nodejs-http | Node 7 with 'http' from stdlib | unsafe |
+| golang-http | Golang 1.9 with 'net/http' from stdlib | safe |
+| nodejs-http | Node 8.5 with 'http' from stdlib | unsafe |
