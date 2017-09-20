@@ -15,7 +15,7 @@ def first_call(response):
         response.rethrow()
     print ("%s first %d bytes" % (now(), len(response.body)))
 
-    # sleep before starting more requests
+    # sleep before starting more requests. FIXME make this not block the event loop!
     time.sleep(1)
 
     # start more requests after a while
