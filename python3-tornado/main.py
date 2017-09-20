@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from tornado import ioloop, httpclient, gen
 
 global i
@@ -15,15 +15,17 @@ def first_call(response):
         response.rethrow()
     print ("%s first %d bytes" % (now(), len(response.body)))
 
-    # sleep before starting more requests. FIXME make this not block the event loop!
-    time.sleep(1)
+    # sleep before starting more requests.
+    ioloop.IOLoop.instance().add_timeout(timedelta(seconds=1), second_call)
 
-    # start more requests after a while
+
+def second_call():
+    # start more requests after a timeout
     for _ in range(maxI):
-        http_client.fetch("http://example.org", second_call)
+        http_client.fetch("http://example.org", third_call)
 
 
-def second_call(response):
+def third_call(response):
     if response.error:
         response.rethrow()
     print ("%s second %d bytes" % (now(), len(response.body)))
