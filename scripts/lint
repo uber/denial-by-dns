@@ -9,6 +9,7 @@ go_container() {
         echo "ERROR: $make_vsn in these files should be the same:"
         echo "- Makefile ($make_vsn)"
         echo "- golang-http/Dockerfile.dnsgames ($test_vsn)"
+        exit 1
     fi
 }
 
