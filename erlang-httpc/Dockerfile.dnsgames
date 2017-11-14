@@ -1,5 +1,5 @@
-# Erlang 20 with inets httpc
-FROM erlang:20
+# Erlang 20.1 with inets httpc
+FROM erlang:20.1
 
 ADD .gen/httpserver scripts/dnsgames_init /
 ADD erlang-httpc/main.erl /

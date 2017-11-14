@@ -1,5 +1,5 @@
-# Golang 1.9 with 'net/http' from stdlib
-FROM golang:1.9
+# Golang 1.9.2 with 'net/http' from stdlib
+FROM golang:1.9.2
 
 ADD .gen/httpserver scripts/dnsgames_init /
 ADD golang-http/main.go /
