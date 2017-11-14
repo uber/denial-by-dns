@@ -1,8 +1,7 @@
-# Python 3.5.3 with Tornado 4.4.3
-FROM debian:stretch
+# Python 3.6.3 with Tornado 4.5.2
+FROM python:3.6.3
 
-RUN apt-get update
-RUN apt-get install -y python3-tornado wget inetutils-ping
+RUN pip install tornado==4.5.2
 
 ADD .gen/httpserver scripts/dnsgames_init /
 ADD python3-tornado/main.py /
