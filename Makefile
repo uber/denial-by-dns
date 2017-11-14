@@ -5,7 +5,9 @@ REPORTS = $(sort $(patsubst %,.gen/reports/%,$(CONTAINERS)))
 # Do not remove intermediate files; we have logic to handle it anyway.
 .SECONDARY:
 
-all: scripts/generate_reports $(REPORTS)
+all: README.md
+
+README.md: scripts/generate_reports $(REPORTS)
 	$< $(REPORTS)
 
 .gen/reports/%: scripts/do_test .gen/containers/%
