@@ -1,0 +1,15 @@
+#!/bin/bash
+set -euo pipefail
+
+# assert golang-http and Makefile have the same go container
+go_container() {
+    make_vsn=$(awk -F= '/^GO_CONTAINER/ { sub(/ /,"",$2); print $2; exit }' Makefile)
+    test_vsn=$(awk '/^FROM / { print $2}' golang-http/Dockerfile.dnsgames)
+    if [[ "$make_vsn" != "$test_vsn" ]]; then
+        echo "ERROR: $make_vsn in these files should be the same:"
+        echo "- Makefile ($make_vsn)"
+        echo "- golang-http/Dockerfile.dnsgames ($test_vsn)"
+    fi
+}
+
+go_container

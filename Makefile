@@ -1,7 +1,9 @@
 CONTAINERS = $(subst /Dockerfile.dnsgames,,$(wildcard */Dockerfile.dnsgames))
 REPORTS = $(sort $(patsubst %,.gen/reports/%,$(CONTAINERS)))
 
-.PHONY: all
+GO_CONTAINER = golang:1.9.2
+
+.PHONY: all lint
 # Do not remove intermediate files; we have logic to handle it anyway.
 .SECONDARY:
 
@@ -22,6 +24,9 @@ README.md: scripts/generate_reports $(REPORTS)
 
 .gen/httpserver: scripts/httpserver.go
 	mkdir -p .gen
-	docker run -i --rm golang:1.9.2 \
+	docker run -i --rm $(GO_CONTAINER) \
 		sh -c "cat > httpserver.go; CGO_ENABLED=0 go build -a -installsuffix cgo; cat go" < $< > $@
 	chmod a+x $@
+
+lint:
+	scripts/lint
