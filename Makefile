@@ -20,6 +20,6 @@ all: scripts/generate_reports $(REPORTS)
 
 .gen/httpserver: scripts/httpserver.go
 	mkdir -p .gen
-	docker run -i --rm golang:1.9 \
+	docker run -i --rm golang:1.9.2 \
 		sh -c "cat > httpserver.go; CGO_ENABLED=0 go build -a -installsuffix cgo; cat go" < $< > $@
 	chmod a+x $@

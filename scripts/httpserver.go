@@ -24,7 +24,7 @@ func main() {
 	defer f.Close()
 
 	http.Handle("/health", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(fmt.Sprintf("ok\n", time.Now().Format(time.RFC3339))))
+		w.Write([]byte("ok\n"))
 	}))
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ret := []byte(fmt.Sprintf("success %s\n", time.Now().Format(time.RFC3339)))

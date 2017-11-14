@@ -3,13 +3,13 @@
 set -euo pipefail
 
 declare container_id
-declare wait_time=10  # how long to wait for a container to stop, in seconds
+declare wait_time=10  # how long to wait before killing a container, in seconds
 declare report=".gen/reports/$1"
 
-# Start container named $1. The container name will be `dnsgames-$1`
+# Start container hostnamed $1.
 start_container() {
     local _name=$1
-    echo -n "Starting $_name... "
+    echo "Starting $_name... "
     set -x
     container_id=$(
         docker run \
@@ -22,7 +22,7 @@ start_container() {
     echo "id: $container_id"
 }
 
-# Wait for $container_id  to exit for up to $wait_time
+# Wait for $container_id to exit for up to $wait_time
 # Return exit code of the container, or 2 if killed.
 wait_or_kill() {
     # Container has 2 seconds to finish the test, and 3 seconds to quit.
@@ -68,6 +68,11 @@ fi
 echo Container logs:
 echo ======================================
 docker logs "$container_id"
+echo ======================================
+echo
+echo Report:
+echo ======================================
+cat "$report"
 echo ======================================
 echo
 
