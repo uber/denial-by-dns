@@ -3,7 +3,9 @@
 Denial of Service establishing connections to `localhost`
 =========================================================
 
-Infrastructure to test `getaddrinfo()` on different systems when DNS servers are timing out.
+Infrastructure to test `getaddrinfo()` on different systems when DNS servers
+are timing out. Thorough analysis, project history and technical background is
+in [Uber Engineering Blog](https://eng.uber.com/denial-by-dns).
 
 Problem statement
 -----------------
