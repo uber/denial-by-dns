@@ -3,6 +3,12 @@ sudo: required
 services:
   - docker
 
+addons:
+  apt:
+    packages:
+      - shellcheck
+
 script:
+  - make lint
   - make  # Generate the report from scratch
   - git diff --exit-code  # README.md is committed

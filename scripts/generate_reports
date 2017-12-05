@@ -6,8 +6,6 @@ if [[ $(uname) == "Darwin" ]]; then
     sed=gsed
 fi
 
-"$sed" -i -n '0,/^List of tested programming languages:$/p' README.md
-
 {
     echo
     echo "| Name | Comment | Safe |"
@@ -23,4 +21,7 @@ fi
         fi
         echo "| $name | $comment | $safe |"
     done
-} >> README.md
+} > .gen/report.md
+
+"$sed" -i -n '0,/^List of tested programming languages:$/p' README.md
+cat .gen/report.md >> README.md
