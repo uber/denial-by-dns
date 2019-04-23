@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/uber/denial-by-dns.svg?branch=master)](https://travis-ci.org/uber/denial-by-dns)
+[![Build Status](https://travis-ci.com/uber/denial-by-dns.svg?branch=master)](https://travis-ci.com/uber/denial-by-dns)
 
 Denial of Service establishing connections to `localhost`
 =========================================================
