@@ -7,8 +7,6 @@ error() {
 set -x
 NSIP=${NSIP:-172.17.0.255}
 
-# check ping version
-ping --version 2>&1 | grep -q inetutils || error "please install inetutils-ping"
 # verify $NSIP is unpingable
 ping -W1000 -c1 "$NSIP" && error "$NSIP is pingable, please set NSIP=<unpingable ip>"
 
