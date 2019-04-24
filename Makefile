@@ -2,7 +2,7 @@ CONTAINERS = $(subst /Dockerfile.dnsgames,,$(wildcard */Dockerfile.dnsgames))
 REPORTS = $(sort $(patsubst %,.gen/reports/%,$(CONTAINERS)))
 SCRIPTS = $(shell awk '/\#!\/bin\/bash/ && FNR == 1 {print FILENAME}' scripts/*)
 
-GO_CONTAINER = golang:1.9.2
+GO_CONTAINER = golang:1.12.4
 
 .PHONY: all lint
 # Do not remove intermediate files; we have logic to handle changes otherwise
