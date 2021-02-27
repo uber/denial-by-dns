@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Threading;
 
-await Dns.GetHostAddressesAsync("https://localhost:8080");
+await Dns.GetHostAddressesAsync("http://localhost:8080");
 
 for (int i = 0; i < 25; i++)
 {
