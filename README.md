@@ -63,3 +63,4 @@ List of tested programming languages:
 | golang-http | Golang 1.12.4 with 'net/http' from stdlib | safe |
 | nodejs-http | Node 10.15.3 with 'http' from stdlib | unsafe |
 | python3-tornado | Python 3.6.3 with Tornado 6.0.2 | unsafe |
+| csharp-dns | .net 5.0 (on liniux) | unsafe |
