@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.com/uber/denial-by-dns.svg?branch=master)](https://travis-ci.com/uber/denial-by-dns)
+> [!CAUTION]
+> The Dockerfiles in this project are out of date, and may contain significant security issues.
+
+
 
 Denial of Service establishing connections to `localhost`
 =========================================================
